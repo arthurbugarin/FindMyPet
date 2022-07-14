@@ -28,7 +28,7 @@ function Header(props) {
   </div>)
 }
 
-function OcurrenceList(props) {
+function OccurrenceList(props) {
   const [ occurrences, setOccurrences ] = useState(['occurrence1', 'occurrence2']);
 
   return (
@@ -69,7 +69,7 @@ export default function Home() {
       </Head>
 
       <Header></Header>
-      <OcurrenceList></OcurrenceList>
+      <OccurrenceList></OccurrenceList>
       <GMap></GMap>
       <Footer></Footer>
 
