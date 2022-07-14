@@ -1,11 +1,30 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+import headerstyles from '../styles/header.module.css'
 
 function Header(props) {
-  return (<p>
-  hello i am header.
-  </p>)
+  return (<div className={headerstyles.header}>
+    <p>
+      hello i am header.
+    </p>
+    <Link href="#">
+      <a>
+        Encontrei um pet
+      </a>
+    </Link>
+    <Link href="#">
+      <a>
+        Perdi meu pet
+      </a>
+    </Link>
+    <Link href="#">
+      <a>
+        Me avise sobre pets perdidos na minha área
+      </a>
+    </Link>
+  </div>)
 }
 
 function OcurrenceList(props) {
