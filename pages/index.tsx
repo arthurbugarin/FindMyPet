@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import headerstyles from '../styles/header.module.css'
+import { useState } from 'react'
 
 function Header(props) {
   return (<div className={headerstyles.header}>
@@ -28,10 +29,19 @@ function Header(props) {
 }
 
 function OcurrenceList(props) {
+  const [ occurrences, setOccurrences ] = useState(['occurrence1', 'occurrence2']);
+
   return (
-    <p>
-    this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
-    </p>)
+    <div className="occurrence-list">
+      <p>
+      this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
+      </p>
+      {
+      occurrences.map((occurrence, index) => {
+         return (<li key={index}>{occurrence}</li>)
+      })
+      }
+    </div>)
 }
 
 function GMap(props) {
