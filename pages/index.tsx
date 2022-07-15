@@ -25,6 +25,11 @@ function Header(props) {
         Me avise sobre pets perdidos na minha área
       </a>
     </Link>
+    <Link href="#">
+      <a>
+        Imprimir pôster de animal perdido
+      </a>
+    </Link>
   </div>)
 }
 
