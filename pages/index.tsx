@@ -7,9 +7,9 @@ import { useState } from 'react'
 
 function Header(props) {
   return (<div className={headerstyles.header}>
-    <p>
-      Logo goes here
-    </p>
+    <div className={headerstyles.logo}>
+      Logo
+    </div>
     <div className={headerstyles.linksContainer}>
       <Link href="#">
         <a>
