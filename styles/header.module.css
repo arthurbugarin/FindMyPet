@@ -1,3 +1,11 @@
 .header {
     border: solid 5px black;
+    height: 200px;
+    width: 100%;
+    background-color: rgb(107, 151, 199);
+    display: flex;
+}
+
+.linksContainer {
+    flex-grow: 4;
 }
