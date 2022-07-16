@@ -8,28 +8,30 @@ import { useState } from 'react'
 function Header(props) {
   return (<div className={headerstyles.header}>
     <p>
-      hello i am header.
+      Logo goes here
     </p>
-    <Link href="#">
-      <a>
-        Encontrei um pet
-      </a>
-    </Link>
-    <Link href="#">
-      <a>
-        Perdi meu pet
-      </a>
-    </Link>
-    <Link href="#">
-      <a>
-        Me avise sobre pets perdidos na minha área
-      </a>
-    </Link>
-    <Link href="#">
-      <a>
-        Imprimir pôster de animal perdido
-      </a>
-    </Link>
+    <div className={headerstyles.linksContainer}>
+      <Link href="#">
+        <a>
+          Encontrei um pet
+        </a>
+      </Link>
+      <Link href="#">
+        <a>
+          Perdi meu pet
+        </a>
+      </Link>
+      <Link href="#">
+        <a>
+          Me avise sobre pets perdidos na minha área
+        </a>
+      </Link>
+      <Link href="#">
+        <a>
+          Imprimir pôster de animal perdido
+        </a>
+      </Link>
+    </div>
   </div>)
 }
 
@@ -64,7 +66,8 @@ function Footer() {
 
 
 export default function Home() {
-  return (
+  return (<>
+    <Header/>
     <div className={styles.container}>
       <Head>
         {/* pensando no nome ainda, por enquanto é esse */}
@@ -73,7 +76,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header></Header>
       <OccurrenceList></OccurrenceList>
       <GMap></GMap>
       <Footer></Footer>
@@ -134,5 +136,6 @@ export default function Home() {
         </a>
       </footer>
     </div>
+  </>
   )
 }
