@@ -44,6 +44,7 @@ function Header(props) {
 function OccurrenceList(props) {
   const [ occurrences, setOccurrences ] = useState([{id: 0, petName: 'stale occurrence pet name', author: null, lat: 0, lon: 0, description: 'stale occurrence description', lost: 0}]);
 
+
   async function refreshOccurrenceList() {
     const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json()).occurrences;
 
