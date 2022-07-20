@@ -40,6 +40,7 @@ function Header(props) {
 }
 
 // this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
+// i believe it would be better if this list and the map were united into a single component, and when the user clicks on an occurrence it highlights it on the map
 function OccurrenceList(props) {
   const [ occurrences, setOccurrences ] = useState([{id: 0, petName: 'stale occurrence pet name', author: null, lat: 0, lon: 0, description: 'stale occurrence description', lost: 0}]);
 
@@ -65,13 +66,6 @@ function OccurrenceList(props) {
     </div>)
 }
 
-function useDeepCompareEffectForMaps(
-  callback: React.EffectCallback,
-  dependencies: any[]
-) {
-  useEffect(callback, dependencies.map(useDeepCompareMemoize));
-}
-
 function Map(props) {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
@@ -82,11 +76,11 @@ function Map(props) {
     }
   }, [ref, map]);
 
-  useDeepCompareEffectForMaps(() => {
+  useEffect(() => {
     if (map) {
       map.setOptions(props);
     }
-  }, [map, props]);
+  }, [map, props].map(useDeepCompareMemoize));
 
   return <div ref={ref} style={{width: '100%', height: '50vw'}}/>
 };
