@@ -3,7 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import headerstyles from '../styles/header.module.css'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { google } from '@google/maps';
+import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 
 function Header(props) {
   return (<div className={headerstyles.header}>
@@ -13,7 +16,8 @@ function Header(props) {
     <div className={headerstyles.linksContainer}>
       <Link href="#">
         <a>
-          Encontrei um pet
+          Encontrei um pet {/*Ia ser interessante se esses dois itens fossem "animais encontrados" e "animais perdidos",
+                              e esses "encontrei/perdi um pet" fossem botões na tela que permitissem criar uma occurrence*/}
         </a>
       </Link>
       <Link href="#">
@@ -54,18 +58,52 @@ function OccurrenceList(props) {
         Refresh
       </button>
       {
-      occurrences.map((occurrence, index) => {
+      occurrences.map(occurrence => {
          return (<li key={occurrence.id}>{occurrence.petName}</li>)
       })
       }
     </div>)
 }
 
+function useDeepCompareEffectForMaps(
+  callback: React.EffectCallback,
+  dependencies: any[]
+) {
+  useEffect(callback, dependencies.map(useDeepCompareMemoize));
+}
+
+function Map(props) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<google.maps.Map>();
+
+  useEffect(() => {
+    if (ref.current && !map) {
+      setMap(new window.google.maps.Map(ref.current, {}));
+    }
+  }, [ref, map]);
+
+  useDeepCompareEffectForMaps(() => {
+    if (map) {
+      map.setOptions(props);
+    }
+  }, [map, props]);
+
+  return <div ref={ref} style={{width: '100px', height: '100px'}}/>
+};
+
 function GMap(props) {
-  return (
+  const render = (status: Status) => {
+    return <h1>{status}</h1>;
+  };
+
+  return (<div className='occurrence-map'>
+    <Wrapper apiKey={"API_KEY"} render={render}>
+      <Map zoom={1} center={{lat: 0, lng: 0}}/>
+    </Wrapper>
     <p>
     this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible
-    </p>)
+    </p>
+  </div>)
 }
 
 function Footer() {
