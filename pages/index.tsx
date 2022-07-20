@@ -35,17 +35,27 @@ function Header(props) {
   </div>)
 }
 
+// this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
 function OccurrenceList(props) {
-  const [ occurrences, setOccurrences ] = useState(['occurrence1', 'occurrence2']);
+  const [ occurrences, setOccurrences ] = useState([{id: 0, petName: 'stale occurrence pet name', author: null, lat: 0, lon: 0, description: 'stale occurrence description', lost: 0}]);
+
+  async function refreshOccurrenceList() {
+    const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json()).occurrences;
+
+    if (occurrences !== newOccurrences) {
+      setOccurrences(newOccurrences);
+    }
+    return null;
+  }
 
   return (
     <div className="occurrence-list">
-      <p>
-      this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
-      </p>
+      <button onClick={refreshOccurrenceList}>
+        Refresh
+      </button>
       {
       occurrences.map((occurrence, index) => {
-         return (<li key={index}>{occurrence}</li>)
+         return (<li key={occurrence.id}>{occurrence.petName}</li>)
       })
       }
     </div>)
