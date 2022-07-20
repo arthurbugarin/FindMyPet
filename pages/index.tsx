@@ -53,7 +53,11 @@ function OccurrenceList(props) {
     return null;
   }
 
-  return (
+  const render = (status: Status) => {
+    return <h1>{status}</h1>;
+  };
+
+  return (<>
     <div className="occurrence-list">
       <button onClick={refreshOccurrenceList}>
         Refresh
@@ -63,7 +67,13 @@ function OccurrenceList(props) {
          return (<li key={occurrence.id}>{occurrence.petName}</li>)
       })
       }
-    </div>)
+    </div>
+    <div className="occurrence-map"> {/*this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible*/}
+      <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
+        <Map zoom={1} center={{lat: 0, lng: 0}}/>
+      </Wrapper>
+    </div>
+  </>)
 }
 
 function Map(props) {
@@ -85,21 +95,6 @@ function Map(props) {
   return <div ref={ref} style={{width: '100%', height: '50vw'}}/>
 };
 
-function GMap(props) {
-  const render = (status: Status) => {
-    return <h1>{status}</h1>;
-  };
-
-  return (<div className='occurrence-map'>
-    <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
-      <Map zoom={1} center={{lat: 0, lng: 0}}/>
-    </Wrapper>
-    <p>
-    this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible
-    </p>
-  </div>)
-}
-
 function Footer() {
   return (<p>
   this will show some information about the app, maybe a few links related to pet adoption centers, animal rescue organizations, etc
@@ -119,7 +114,6 @@ export default function Home() {
       </Head>
 
       <OccurrenceList></OccurrenceList>
-      <GMap></GMap>
       <Footer></Footer>
 
 
