@@ -88,7 +88,7 @@ function Map(props) {
     }
   }, [map, props]);
 
-  return <div ref={ref} style={{width: '100px', height: '100px'}}/>
+  return <div ref={ref} style={{width: '100%', height: '50vw'}}/>
 };
 
 function GMap(props) {
@@ -97,7 +97,7 @@ function GMap(props) {
   };
 
   return (<div className='occurrence-map'>
-    <Wrapper apiKey={"API_KEY"} render={render}>
+    <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
       <Map zoom={1} center={{lat: 0, lng: 0}}/>
     </Wrapper>
     <p>
