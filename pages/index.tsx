@@ -3,7 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import headerstyles from '../styles/header.module.css'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { google } from '@google/maps';
+import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 
 function Header(props) {
   return (<div className={headerstyles.header}>
@@ -13,7 +16,8 @@ function Header(props) {
     <div className={headerstyles.linksContainer}>
       <Link href="#">
         <a>
-          Encontrei um pet
+          Encontrei um pet {/*Ia ser interessante se esses dois itens fossem "animais encontrados" e "animais perdidos",
+                              e esses "encontrei/perdi um pet" fossem botões na tela que permitissem criar uma occurrence*/}
         </a>
       </Link>
       <Link href="#">
@@ -36,8 +40,10 @@ function Header(props) {
 }
 
 // this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
+// i believe it would be better if this list and the map were united into a single component, and when the user clicks on an occurrence it highlights it on the map
 function OccurrenceList(props) {
   const [ occurrences, setOccurrences ] = useState([{id: 0, petName: 'stale occurrence pet name', author: null, lat: 0, lon: 0, description: 'stale occurrence description', lost: 0}]);
+
 
   async function refreshOccurrenceList() {
     const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json()).occurrences;
@@ -48,25 +54,47 @@ function OccurrenceList(props) {
     return null;
   }
 
-  return (
+  const render = (status: Status) => {
+    return <h1>{status}</h1>;
+  };
+
+  return (<>
     <div className="occurrence-list">
       <button onClick={refreshOccurrenceList}>
         Refresh
       </button>
       {
-      occurrences.map((occurrence, index) => {
+      occurrences.map(occurrence => {
          return (<li key={occurrence.id}>{occurrence.petName}</li>)
       })
       }
-    </div>)
+    </div>
+    <div className="occurrence-map"> {/*this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible*/}
+      <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
+        <Map zoom={1} center={{lat: 0, lng: 0}}/>
+      </Wrapper>
+    </div>
+  </>)
 }
 
-function GMap(props) {
-  return (
-    <p>
-    this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible
-    </p>)
-}
+function Map(props) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<google.maps.Map>();
+
+  useEffect(() => {
+    if (ref.current && !map) {
+      setMap(new window.google.maps.Map(ref.current, {}));
+    }
+  }, [ref, map]);
+
+  useEffect(() => {
+    if (map) {
+      map.setOptions(props);
+    }
+  }, [map, props].map(useDeepCompareMemoize));
+
+  return <div ref={ref} style={{width: '100%', height: '50vw'}}/>
+};
 
 function Footer() {
   return (<p>
@@ -87,7 +115,6 @@ export default function Home() {
       </Head>
 
       <OccurrenceList></OccurrenceList>
-      <GMap></GMap>
       <Footer></Footer>
 
 

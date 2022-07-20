@@ -9,6 +9,7 @@ export default function handler(req, res) {
         lon: 0,
         description: 'good boy',
         lost: 0,
+        timestamp: 0,
       },
       {
         id: 1,
@@ -18,6 +19,7 @@ export default function handler(req, res) {
         lon: 0,
         description: 'good girl',
         lost: 0,
+        timestamp: 0,
       }
     ]
   })
