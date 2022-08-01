@@ -1,43 +1,12 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/link'
 import styles from '../styles/Home.module.css'
-import headerstyles from '../styles/header.module.css'
 import { useEffect, useRef, useState } from 'react'
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { google } from '@google/maps';
 import { useDeepCompareMemoize } from 'use-deep-compare-effect';
-
-function Header(props) {
-  return (<div className={headerstyles.header}>
-    <div className={headerstyles.logo}>
-      Logo
-    </div>
-    <div className={headerstyles.linksContainer}>
-      <Link href="#">
-        <a className={headerstyles.link}>
-          Encontrei um pet {/*Ia ser interessante se esses dois itens fossem "animais encontrados" e "animais perdidos",
-                              e esses "encontrei/perdi um pet" fossem botões na tela que permitissem criar uma occurrence*/}
-        </a>
-      </Link>
-      <Link href="#">
-        <a className={headerstyles.link}>
-          Perdi meu pet
-        </a>
-      </Link>
-      <Link href="#">
-        <a className={headerstyles.link}>
-          Me avise sobre pets perdidos na minha área
-        </a>
-      </Link>
-      <Link href="#">
-        <a className={headerstyles.link}>
-          Imprimir pôster de animal perdido
-        </a>
-      </Link>
-    </div>
-  </div>)
-}
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 // this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
 // i believe it would be better if this list and the map were united into a single component, and when the user clicks on an occurrence it highlights it on the map
@@ -98,20 +67,29 @@ function Map(props) {
   return <div ref={ref} style={{width: '50vw', height: '70vh'}}/>
 };
 
-function Footer() {
-  return (<p>
-  this will show some information about the app, maybe a few links related to pet adoption centers, animal rescue organizations, etc
-  </p>)
+function Form(props) {
+  // const [visible, setVisible] = useState(false);
+
+  const visible = props.visible;
+  return (
+    <div style={{display: visible}}>
+      Aqui é o form :{')'}
+      <button>
+        Fechar
+      </button>
+    </div>
+  );
 }
 
-
 export default function Home() {
-  function openFoundPetForm() {
+  const [formVisible, setFormVisible] = useState("none");
 
+  function openFoundPetForm() {
+    setFormVisible("block");
   }
 
   function openLostPetForm() {
-    
+
   }
 
   return (<>
@@ -122,12 +100,15 @@ export default function Home() {
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <Header/>
+
+    <Form visible={formVisible} /> {/*style={{display: formVisible}}/>*/}
     <button onClick={openFoundPetForm}>
       Achei um pet
     </button>
     <button onClick={openLostPetForm}>
       Perdi meu pet
     </button>
+
     <div className={styles.container}>
       <OccurrenceList></OccurrenceList>
     </div>
