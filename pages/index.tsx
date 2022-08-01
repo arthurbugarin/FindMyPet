@@ -106,18 +106,30 @@ function Footer() {
 
 
 export default function Home() {
+  function openFoundPetForm() {
+
+  }
+
+  function openLostPetForm() {
+    
+  }
+
   return (<>
+    <Head>
+      {/* pensando no nome ainda, por enquanto é esse */}
+      <title>Find My Pet</title>
+      <meta name="description" content="Pets encontrados na rua" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <Header/>
+    <button onClick={openFoundPetForm}>
+      Achei um pet
+    </button>
+    <button onClick={openLostPetForm}>
+      Perdi meu pet
+    </button>
     <div className={styles.container}>
-      <Head>
-        {/* pensando no nome ainda, por enquanto é esse */}
-        <title>Find My Pet</title>
-        <meta name="description" content="Pets encontrados na rua" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <OccurrenceList></OccurrenceList>
-
     </div>
     <Footer/>
     <footer className={styles.footer}>
