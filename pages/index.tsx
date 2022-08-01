@@ -15,23 +15,23 @@ function Header(props) {
     </div>
     <div className={headerstyles.linksContainer}>
       <Link href="#">
-        <a>
+        <a className={headerstyles.link}>
           Encontrei um pet {/*Ia ser interessante se esses dois itens fossem "animais encontrados" e "animais perdidos",
                               e esses "encontrei/perdi um pet" fossem botões na tela que permitissem criar uma occurrence*/}
         </a>
       </Link>
       <Link href="#">
-        <a>
+        <a className={headerstyles.link}>
           Perdi meu pet
         </a>
       </Link>
       <Link href="#">
-        <a>
+        <a className={headerstyles.link}>
           Me avise sobre pets perdidos na minha área
         </a>
       </Link>
       <Link href="#">
-        <a>
+        <a className={headerstyles.link}>
           Imprimir pôster de animal perdido
         </a>
       </Link>
@@ -54,25 +54,27 @@ function OccurrenceList(props) {
     return null;
   }
 
-  const render = (status: Status) => {
+  function render(status: Status) {
     return <h1>{status}</h1>;
   };
 
   return (<>
-    <div className="occurrence-list">
-      <button onClick={refreshOccurrenceList}>
-        Refresh
-      </button>
-      {
-      occurrences.map(occurrence => {
-         return (<li key={occurrence.id}>{occurrence.petName}</li>)
-      })
-      }
-    </div>
     <div className="occurrence-map"> {/*this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible*/}
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
         <Map zoom={1} center={{lat: 0, lng: 0}}/>
       </Wrapper>
+    </div>
+    <div className="occurrence-list" style={{width:'100%'}}>
+      <button onClick={refreshOccurrenceList}>
+        Refresh
+      </button>
+      <ul style={{listStyleType: 'none', padding: 0, margin: '1rem 0'}}>
+        {
+        occurrences.map(occurrence => {
+           return (<li key={occurrence.id} style={{padding: '1rem', margin: '1rem', width: '100%', height: '4rem', backgroundColor: 'hsl(203, 63%, 20%)', borderRadius: '10px'}}>{occurrence.petName}</li>)
+        })
+        }
+      </ul>
     </div>
   </>)
 }
@@ -93,7 +95,7 @@ function Map(props) {
     }
   }, [map, props].map(useDeepCompareMemoize));
 
-  return <div ref={ref} style={{width: '100%', height: '50vw'}}/>
+  return <div ref={ref} style={{width: '50vw', height: '70vh'}}/>
 };
 
 function Footer() {
@@ -115,64 +117,21 @@ export default function Home() {
       </Head>
 
       <OccurrenceList></OccurrenceList>
-      <Footer></Footer>
 
-
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
+    <Footer/>
+    <footer className={styles.footer}>
+      <a
+        href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Powered by{' '}
+        <span className={styles.logo}>
+          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+        </span>
+      </a>
+    </footer>
   </>
   )
 }
