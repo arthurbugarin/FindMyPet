@@ -70,8 +70,16 @@ function Map(props) {
 function Form(props) {
   return (
     <div style={{display: props.visible}}>
-      <div style={{position: 'fixed', inset: 0}}>
+      <div style={{position: 'fixed', inset: 0, backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '40px', zIndex: '2'}}>
         Aqui é o form :{')'}
+        <form>
+          <label>
+            Nome
+            
+             
+            <input type="text"/>
+          </label>
+        </form>
         <button onClick={props.hide}>
           Fechar
         </button>
