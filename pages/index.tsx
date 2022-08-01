@@ -68,15 +68,14 @@ function Map(props) {
 };
 
 function Form(props) {
-  // const [visible, setVisible] = useState(false);
-
-  const visible = props.visible;
   return (
-    <div style={{display: visible}}>
-      Aqui é o form :{')'}
-      <button>
-        Fechar
-      </button>
+    <div style={{display: props.visible}}>
+      <div style={{position: 'fixed', inset: 0}}>
+        Aqui é o form :{')'}
+        <button onClick={props.hide}>
+          Fechar
+        </button>
+      </div>
     </div>
   );
 }
@@ -86,6 +85,10 @@ export default function Home() {
 
   function openFoundPetForm() {
     setFormVisible("block");
+  }
+
+  function hideFoundPetForm() {
+    setFormVisible("none");
   }
 
   function openLostPetForm() {
@@ -101,7 +104,7 @@ export default function Home() {
     </Head>
     <Header/>
 
-    <Form visible={formVisible} /> {/*style={{display: formVisible}}/>*/}
+    <Form visible={formVisible} hide={hideFoundPetForm} />
     <button onClick={openFoundPetForm}>
       Achei um pet
     </button>
