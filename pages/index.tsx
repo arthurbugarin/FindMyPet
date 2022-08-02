@@ -68,17 +68,28 @@ function Map(props) {
 };
 
 function Form(props) {
+
+  const [name, setName] = useState("Nome do animal (se souber)")
+
+  function handleChange(event) {
+    setName(event.target.value)
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    alert('sent: ' + name);
+  }
+
   return (
     <div style={{display: props.visible}}>
-      <div style={{position: 'fixed', inset: 0, backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '40px', zIndex: '2'}}>
-        Aqui é o form :{')'}
-        <form>
+      <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '1rem', zIndex: '2', padding: '1rem'}}>
+        Aqui é o form : {')'}
+        <form onSubmit={handleSubmit}>
           <label>
             Nome
-            
-             
-            <input type="text"/>
+            <input type="text" value={name} onChange={handleChange}/>
           </label>
+          <input type="submit" value="Enviar"/>
         </form>
         <button onClick={props.hide}>
           Fechar
@@ -113,7 +124,7 @@ export default function Home() {
     <Header/>
 
     <Form visible={formVisible} hide={hideFoundPetForm} />
-    <button onClick={openFoundPetForm}>
+    <button onClick={openFoundPetForm} style={{position: 'fixed', bottom: '3rem', right: '3rem', width: '60px', height: '60px', borderRadius: '50%'}}>
       Achei um pet
     </button>
     <button onClick={openLostPetForm}>
