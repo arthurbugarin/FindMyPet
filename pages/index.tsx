@@ -20,7 +20,6 @@ function OccurrenceList(props) {
     if (occurrences !== newOccurrences) {
       setOccurrences(newOccurrences);
     }
-    return null;
   }
 
   function render(status: Status) {
@@ -64,7 +63,7 @@ function Map(props) {
     }
   }, [map, props].map(useDeepCompareMemoize));
 
-  return <div ref={ref} style={{width: '50vw', height: '70vh'}}/>
+  return <div ref={ref} style={{width: '50vw', height: '70vh', zIndex: '-1'}}/>
 };
 
 function Form(props) {
@@ -82,7 +81,7 @@ function Form(props) {
 
   return (
     <div style={{display: props.visible}}>
-      <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '1rem', zIndex: '2', padding: '1rem'}}>
+      <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '1rem', zIndex: '100', padding: '1rem'}}>
         Aqui é o form : {')'}
         <form onSubmit={handleSubmit}>
           <label>
@@ -99,7 +98,7 @@ function Form(props) {
   );
 }
 
-export default function Home() {
+function Menu(props) {
   const [formVisible, setFormVisible] = useState("none");
 
   function openFoundPetForm() {
@@ -110,9 +109,29 @@ export default function Home() {
     setFormVisible("none");
   }
 
-  function openLostPetForm() {
+  return (
+    <div style={{display: props.visible, flexDirection: 'column', alignItems: 'end', bottom: 0, right: 0, width: '200px'}}>
+      <Form visible={formVisible} hide={hideFoundPetForm} />
+      <button onClick={openFoundPetForm}>
+        Perdi meu pet
+      </button>
+      <button>
+        Encontrei um pet
+      </button>
+    </div>
+  )
+}
 
+export default function Home() {
+  const [menuVisible, setMenuVisible] = useState("none");
+
+  function toggleMenu() {
+    if (menuVisible === "none")
+      setMenuVisible("flex");
+    else
+      setMenuVisible("none");
   }
+
 
   return (<>
     <Head>
@@ -123,13 +142,15 @@ export default function Home() {
     </Head>
     <Header/>
 
-    <Form visible={formVisible} hide={hideFoundPetForm} />
-    <button onClick={openFoundPetForm} style={{position: 'fixed', bottom: '3rem', right: '3rem', width: '60px', height: '60px', borderRadius: '50%'}}>
-      Achei um pet
-    </button>
-    <button onClick={openLostPetForm}>
-      Perdi meu pet
-    </button>
+    <div style={{position: 'fixed', bottom: '3rem', right: '3rem'}}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'end'}}>
+        <Menu visible={menuVisible}/>
+        <button onClick={toggleMenu} style={{width: '60px', height: '60px', borderRadius: '50%'}}>
+          Reportar pet
+        </button>
+      </div>
+    </div>
+
 
     <div className={styles.container}>
       <OccurrenceList></OccurrenceList>
