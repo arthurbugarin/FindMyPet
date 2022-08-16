@@ -1,8 +1,10 @@
+@value primary-color from "./colors.css";
+
 .header {
     border: solid 5px black;
     height: 200px;
     width: 100%;
-    background-color: rgb(107, 151, 199);
+    background-color: primary-color;
     display: flex;
     justify-content: space-between;
 }
