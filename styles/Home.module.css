@@ -119,20 +119,20 @@
   }
 }
 
+.occurrencesList {
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem;
+}
+
 .occurrence {
   padding: 1rem;
-  margin: 1rem;
+  margin: 1rem 0;
   width: 100%;
   height: 4rem;
   background-color: white;
   border: 3px solid #DDE2E5;
   border-radius: 10px;
-}
-
-.occurrencesList {
-  list-style-type: none;
-  padding: 0;
-  margin: 1rem 0;
 }
 
 .occurrencesListRefreshButton {
