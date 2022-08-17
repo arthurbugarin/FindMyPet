@@ -13,7 +13,6 @@ import Footer from '../components/Footer';
 function OccurrenceList(props) {
   const [ occurrences, setOccurrences ] = useState([{id: 0, petName: 'stale occurrence pet name', author: null, lat: 0, lon: 0, description: 'stale occurrence description', lost: 0}]);
 
-
   async function refreshOccurrenceList() {
     const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json()).occurrences;
 
@@ -21,6 +20,10 @@ function OccurrenceList(props) {
       setOccurrences(newOccurrences);
     }
   }
+
+  useEffect(() => {
+    refreshOccurrenceList();
+  }, []);
 
   function render(status: Status) {
     return <h1>{status}</h1>;
@@ -81,7 +84,7 @@ function Form(props) {
 
   return (
     <div style={{display: props.visible}}>
-      <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '1rem', zIndex: '10000', padding: '1rem'}}>
+      <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '1rem', zIndex: '100', padding: '1rem'}}>
         Aqui é o form : {')'}
         <form onSubmit={handleSubmit}>
           <label>
