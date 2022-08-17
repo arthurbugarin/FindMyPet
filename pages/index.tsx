@@ -20,7 +20,6 @@ function OccurrenceList(props) {
     if (occurrences !== newOccurrences) {
       setOccurrences(newOccurrences);
     }
-    return null;
   }
 
   function render(status: Status) {
@@ -33,14 +32,14 @@ function OccurrenceList(props) {
         <Map zoom={1} center={{lat: 0, lng: 0}}/>
       </Wrapper>
     </div>
-    <div className="occurrence-list" style={{width:'100%'}}>
-      <button onClick={refreshOccurrenceList}>
+    <div className={styles.occurrencesListContainer}>
+      <button className={styles.occurrencesListRefreshButton} onClick={refreshOccurrenceList}>
         Refresh
       </button>
-      <ul style={{listStyleType: 'none', padding: 0, margin: '1rem 0'}}>
+      <ul className={styles.occurrencesList}>
         {
         occurrences.map(occurrence => {
-           return (<li key={occurrence.id} style={{padding: '1rem', margin: '1rem', width: '100%', height: '4rem', backgroundColor: 'hsl(203, 63%, 20%)', borderRadius: '10px'}}>{occurrence.petName}</li>)
+           return (<li key={occurrence.id} className={styles.occurrence}>{occurrence.petName}</li>)
         })
         }
       </ul>
@@ -64,21 +63,32 @@ function Map(props) {
     }
   }, [map, props].map(useDeepCompareMemoize));
 
-  return <div ref={ref} style={{width: '50vw', height: '70vh'}}/>
+  return <div ref={ref} style={{width: '50vw', height: '70vh', zIndex: '-1'}}/>
 };
 
 function Form(props) {
+
+  const [name, setName] = useState("Nome do animal (se souber)")
+
+  function handleChange(event) {
+    setName(event.target.value)
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    alert('sent: ' + name);
+  }
+
   return (
     <div style={{display: props.visible}}>
-      <div style={{position: 'fixed', inset: 0, backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '40px', zIndex: '2'}}>
-        Aqui é o form :{')'}
-        <form>
+      <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '1rem', zIndex: '100', padding: '1rem'}}>
+        Aqui é o form : {')'}
+        <form onSubmit={handleSubmit}>
           <label>
             Nome
-            
-             
-            <input type="text"/>
+            <input type="text" value={name} onChange={handleChange}/>
           </label>
+          <input type="submit" value="Enviar"/>
         </form>
         <button onClick={props.hide}>
           Fechar
@@ -88,7 +98,7 @@ function Form(props) {
   );
 }
 
-export default function Home() {
+function Menu(props) {
   const [formVisible, setFormVisible] = useState("none");
 
   function openFoundPetForm() {
@@ -99,9 +109,32 @@ export default function Home() {
     setFormVisible("none");
   }
 
-  function openLostPetForm() {
+  return (
+    <div style={{display: props.visible}}>
+      <div className={styles.floatingActionMenu}>
+        <Form visible={formVisible} hide={hideFoundPetForm} />
+        <button className={styles.floatingActionMenuOption} onClick={openFoundPetForm}>
+          Perdi meu pet
+        </button>
+        <button className={styles.floatingActionMenuOption}>
+          Encontrei um pet
+        </button>
+      </div>
+    </div>
+  )
+}
 
+export default function Home() {
+  const [menuVisible, setMenuVisible] = useState("none");
+
+  function toggleMenu() {
+    if (menuVisible === "none")
+      setMenuVisible("flex");
+    else
+      setMenuVisible("none");
   }
+
+
 
   return (<>
     <Head>
@@ -112,13 +145,14 @@ export default function Home() {
     </Head>
     <Header/>
 
-    <Form visible={formVisible} hide={hideFoundPetForm} />
-    <button onClick={openFoundPetForm}>
-      Achei um pet
-    </button>
-    <button onClick={openLostPetForm}>
-      Perdi meu pet
-    </button>
+    <div className={styles.floatingActionContainer}>
+      <Menu visible={menuVisible}/>
+      <button className={styles.floatingActionButton} onClick={toggleMenu}>
+        Reportar pet
+      </button>
+    </div>
+
+
 
     <div className={styles.container}>
       <OccurrenceList></OccurrenceList>

@@ -1,3 +1,5 @@
+@value primary-color from "./colors.css";
+
 .container {
   /* padding: 0 2rem; */
   display: flex;
@@ -115,4 +117,74 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.occurrencesList {
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem;
+}
+
+.occurrence {
+  padding: 1rem;
+  margin: 1rem 0;
+  width: 100%;
+  height: 4rem;
+  background-color: white;
+  border: 3px solid #DDE2E5;
+  border-radius: 10px;
+}
+
+.occurrencesListRefreshButton {
+
+}
+
+.occurrencesListContainer {
+  width: 100%;
+}
+
+.floatingActionContainer {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.floatingActionButton {
+  background-color: primary-color;
+  color: white;
+  border: 2px solid white;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.floatingActionButton:hover{
+  opacity: 0.5;
+}
+
+.floatingActionMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  border: 3px solid #DDE2E5;
+  border-radius: 5px;
+}
+
+.floatingActionMenuOption {
+  margin: 5px;
+  width: 100%;
+  height: 40%;
+  background: white;
+  border: 0;
+}
+
+.floatingActionMenuOption:hover {
+  cursor: pointer;
 }
