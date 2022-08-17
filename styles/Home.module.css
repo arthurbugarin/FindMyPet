@@ -139,3 +139,27 @@
 .occurrencesListContainer {
   width: 100%;
 }
+
+.floatingActionButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.floatingActionContainer {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.floatingActionMenu {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+}

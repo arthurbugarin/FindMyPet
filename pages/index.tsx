@@ -110,14 +110,16 @@ function Menu(props) {
   }
 
   return (
-    <div style={{display: props.visible, flexDirection: 'column', alignItems: 'end', bottom: 0, right: 0, width: '200px'}}>
-      <Form visible={formVisible} hide={hideFoundPetForm} />
-      <button onClick={openFoundPetForm}>
-        Perdi meu pet
-      </button>
-      <button>
-        Encontrei um pet
-      </button>
+    <div style={{display: props.visible}}>
+      <div className={styles.floatingActionMenu}>
+        <Form visible={formVisible} hide={hideFoundPetForm} />
+        <button onClick={openFoundPetForm}>
+          Perdi meu pet
+        </button>
+        <button>
+          Encontrei um pet
+        </button>
+      </div>
     </div>
   )
 }
@@ -142,13 +144,11 @@ export default function Home() {
     </Head>
     <Header/>
 
-    <div style={{position: 'fixed', bottom: '3rem', right: '3rem'}}>
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'end'}}>
-        <Menu visible={menuVisible}/>
-        <button onClick={toggleMenu} style={{width: '60px', height: '60px', borderRadius: '50%'}}>
-          Reportar pet
-        </button>
-      </div>
+    <div className={styles.floatingActionContainer}>
+      <Menu visible={menuVisible}/>
+      <button className={styles.floatingActionButton} onClick={toggleMenu}>
+        Reportar pet
+      </button>
     </div>
 
 
