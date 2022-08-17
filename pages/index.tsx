@@ -32,14 +32,14 @@ function OccurrenceList(props) {
         <Map zoom={1} center={{lat: 0, lng: 0}}/>
       </Wrapper>
     </div>
-    <div className="occurrence-list" style={{width:'100%'}}>
-      <button onClick={refreshOccurrenceList}>
+    <div className={styles.occurrencesListContainer}>
+      <button className={styles.occurrencesListRefreshButton} onClick={refreshOccurrenceList}>
         Refresh
       </button>
-      <ul style={{listStyleType: 'none', padding: 0, margin: '1rem 0'}}>
+      <ul className={styles.occurrencesList}>
         {
         occurrences.map(occurrence => {
-           return (<li key={occurrence.id} style={{padding: '1rem', margin: '1rem', width: '100%', height: '4rem', backgroundColor: 'hsl(203, 63%, 20%)', borderRadius: '10px'}}>{occurrence.petName}</li>)
+           return (<li key={occurrence.id} className={styles.occurrence}>{occurrence.petName}</li>)
         })
         }
       </ul>

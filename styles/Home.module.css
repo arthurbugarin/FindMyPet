@@ -116,3 +116,26 @@
     flex-direction: column;
   }
 }
+
+.occurrence {
+  padding: 1rem;
+  margin: 1rem;
+  width: 100%;
+  height: 4rem;
+  background-color: hsl(203, 63%, 20%);
+  border-radius: 10px;
+}
+
+.occurrencesList {
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.occurrencesListRefreshButton {
+
+}
+
+.occurrencesListContainer {
+  width: 100%;
+}
