@@ -135,6 +135,7 @@ export default function Home() {
   }
 
 
+
   return (<>
     <Head>
       {/* pensando no nome ainda, por enquanto é esse */}
@@ -150,6 +151,7 @@ export default function Home() {
         Reportar pet
       </button>
     </div>
+
 
 
     <div className={styles.container}>
