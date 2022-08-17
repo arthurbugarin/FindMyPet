@@ -113,10 +113,10 @@ function Menu(props) {
     <div style={{display: props.visible}}>
       <div className={styles.floatingActionMenu}>
         <Form visible={formVisible} hide={hideFoundPetForm} />
-        <button onClick={openFoundPetForm}>
+        <button className={styles.floatingActionMenuOption} onClick={openFoundPetForm}>
           Perdi meu pet
         </button>
-        <button>
+        <button className={styles.floatingActionMenuOption}>
           Encontrei um pet
         </button>
       </div>
