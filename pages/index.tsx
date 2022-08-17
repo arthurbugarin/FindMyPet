@@ -27,7 +27,7 @@ function OccurrenceList(props) {
   };
 
   return (<>
-    <div className="occurrence-map"> {/*this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible*/}
+    <div className="occurrence-map" style={props.mapStyle}> {/*this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible*/}
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
         <Map zoom={1} center={{lat: 0, lng: 0}}/>
       </Wrapper>
@@ -63,7 +63,7 @@ function Map(props) {
     }
   }, [map, props].map(useDeepCompareMemoize));
 
-  return <div ref={ref} style={{width: '50vw', height: '70vh', zIndex: '-1'}}/>
+  return <div ref={ref} style={{width: '50vw', height: '70vh'}}/>
 };
 
 function Form(props) {
@@ -81,7 +81,7 @@ function Form(props) {
 
   return (
     <div style={{display: props.visible}}>
-      <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '1rem', zIndex: '100', padding: '1rem'}}>
+      <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', width: '300px', height:'300px', border: '3px solid black', borderRadius: '1rem', zIndex: '10000', padding: '1rem'}}>
         Aqui é o form : {')'}
         <form onSubmit={handleSubmit}>
           <label>
@@ -103,10 +103,12 @@ function Menu(props) {
 
   function openFoundPetForm() {
     setFormVisible("block");
+    props.setMapStyle({ zIndex: -1 });
   }
 
   function hideFoundPetForm() {
     setFormVisible("none");
+    props.setMapStyle({});
   }
 
   return (
@@ -126,6 +128,7 @@ function Menu(props) {
 
 export default function Home() {
   const [menuVisible, setMenuVisible] = useState("none");
+  const [mapStyle, setMapStyle] = useState({});
 
   function toggleMenu() {
     if (menuVisible === "none")
@@ -133,8 +136,6 @@ export default function Home() {
     else
       setMenuVisible("none");
   }
-
-
 
   return (<>
     <Head>
@@ -146,17 +147,18 @@ export default function Home() {
     <Header/>
 
     <div className={styles.floatingActionContainer}>
-      <Menu visible={menuVisible}/>
+      <Menu visible={menuVisible} setMapStyle={setMapStyle}/>
       <button className={styles.floatingActionButton} onClick={toggleMenu}>
         Reportar pet
       </button>
     </div>
 
-
-
     <div className={styles.container}>
-      <OccurrenceList></OccurrenceList>
+      <OccurrenceList mapStyle={mapStyle}></OccurrenceList>
     </div>
+
+
+
     <Footer/>
     <footer className={styles.footer}>
       <a
