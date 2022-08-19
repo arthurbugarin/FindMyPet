@@ -11,14 +11,18 @@ import Footer from '../components/Footer';
 // this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
 // i believe it would be better if this list and the map were united into a single component, and when the user clicks on an occurrence it highlights it on the map
 function OccurrenceList(props) {
-  const [ occurrences, setOccurrences ] = useState([{id: 0, petName: 'stale occurrence pet name', author: null, lat: 0, lon: 0, description: 'stale occurrence description', lost: 0}]);
-
+  const [ occurrences, setOccurrences ] = useState([]);
+  const [ loading, setLoading ] = useState(false);
+  
   async function refreshOccurrenceList() {
+    setLoading(true);
     const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json()).occurrences;
-
+    
     if (occurrences !== newOccurrences) {
       setOccurrences(newOccurrences);
     }
+    
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -39,6 +43,7 @@ function OccurrenceList(props) {
       <button className={styles.occurrencesListRefreshButton} onClick={refreshOccurrenceList}>
         Refresh
       </button>
+      {loading ? 'Carregando...' : null}
       <ul className={styles.occurrencesList}>
         {
         occurrences.map(occurrence => {
