@@ -151,7 +151,7 @@ export default function Home() {
 
     <div className={styles.floatingActionContainer}>
       <Menu visible={menuVisible} setMapStyle={setMapStyle}/>
-      <button className={styles.floatingActionButton} onClick={toggleMenu}>
+      <button className={styles.floatingActionButton} onMouseEnter={toggleMenu} onMouseLeave={toggleMenu}>
         Reportar pet
       </button>
     </div>
