@@ -157,7 +157,7 @@ export default function Home() {
     </div>
 
     <div className={styles.container}>
-      <OccurrenceList mapStyle={mapStyle}></OccurrenceList>
+      <OccurrenceList mapStyle={mapStyle} />
     </div>
 
 
