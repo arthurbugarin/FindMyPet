@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model occurrence {
+  id              Int       @id @default(autoincrement())
+  create_time     DateTime? @default(now()) @db.DateTime(0)
+  update_time     DateTime? @default(now()) @db.DateTime(0)
+  pet_name        String?   @db.VarChar(50)
+  author          String?   @db.VarChar(50)
+  lat             Float?    @db.Float
+  lon             Float?    @db.Float
+  pet_description String?   @db.Text
+  is_authors_pet  Boolean?
+  solved          Boolean?
+}
