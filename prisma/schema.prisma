@@ -7,15 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model occurrence {
-  id              Int       @id @default(autoincrement())
-  create_time     DateTime? @default(now()) @db.DateTime(0)
-  update_time     DateTime? @default(now()) @db.DateTime(0)
-  pet_name        String?   @db.VarChar(50)
-  author          String?   @db.VarChar(50)
-  lat             Float?    @db.Float
-  lon             Float?    @db.Float
-  pet_description String?   @db.Text
-  is_authors_pet  Boolean?
-  solved          Boolean?
+model Occurrence {
+  id              Int       @id @default(autoincrement()) @map("id")
+  createTime     DateTime? @default(now()) @db.DateTime(0) @map("create_time")
+  updateTime     DateTime? @default(now()) @db.DateTime(0) @map("update_time")
+  petName        String?   @db.VarChar(50) @map("pet_name")
+  author          String?   @db.VarChar(50) @map("author")
+  lat             Float?    @db.Float @map("lat")
+  lon             Float?    @db.Float @map("lon")
+  petDescription String?   @db.Text @map("pet_description")
+  isAuthorsPet  Boolean? @map("is_authors_pet")
+  solved          Boolean? @map("solved")
+
+  @@map("occurrences")
 }
