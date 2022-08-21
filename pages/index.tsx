@@ -13,7 +13,7 @@ import Footer from '../components/Footer';
 function OccurrenceList(props) {
   const [ occurrences, setOccurrences ] = useState([]);
   const [ loading, setLoading ] = useState(false);
-  
+
   async function refreshOccurrenceList() {
     setLoading(true);
     const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json());
