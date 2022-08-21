@@ -16,7 +16,7 @@ function OccurrenceList(props) {
   
   async function refreshOccurrenceList() {
     setLoading(true);
-    const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json()).occurrences;
+    const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json());
     
     if (occurrences !== newOccurrences) {
       setOccurrences(newOccurrences);
