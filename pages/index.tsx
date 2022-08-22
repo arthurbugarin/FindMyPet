@@ -81,25 +81,28 @@ function Map(props) {
 
 function Form(props) {
 
-  const [name, setName] = useState("Nome do animal (se souber)")
-
-  function handleChange(event) {
-    setName(event.target.value)
-  }
+  const [ petName, setPetName ] = useState("")
+  const [ authorName, setAuthorName ] = useState(null);
+  const [ lat, setLat ] = useState(null);
+  const [ lon, setLon ] = useState(null);
+  const [ description, setDescription ] = useState(null);
 
   function handleSubmit(event) {
     event.preventDefault();
-    alert('sent: ' + name);
+    alert('sent: ' + petName);
   }
 
   return (
     <div style={{position: 'fixed', top: 0, left: 0, display: props.visible, width: '100%', height: '100%'}} onClick={props.hide}>
       <div className={styles.form} onClick={e => e.stopPropagation()}>
-        Aqui é o form : {')'}
         <form onSubmit={handleSubmit}>
           <label>
-            Nome
-            <input type="text" value={name} onChange={handleChange}/>
+            Nome do pet
+            <input type="text" value={petName} onChange={(e) => setPetName(e.target.value)}/>
+          </label>
+          <label>
+            Seu nome
+            <input type="text" value={authorName} onChange={(e) => setAuthorName(e.target.value)}/>
           </label>
           <input type="submit" value="Enviar"/>
         </form>
