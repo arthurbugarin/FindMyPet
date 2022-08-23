@@ -79,6 +79,17 @@ function Map(props) {
   return <div ref={ref} style={{width: '50vw', height: '70vh'}}/>
 };
 
+function Modal(props) {
+  return (
+    <div style={{position: 'fixed', top: 0, left: 0, display: props.visible, width: '100%', height: '100%'}} onClick={props.hide}>
+      <div onClick={e => e.stopPropagation()}>
+        {props.children} 
+        {/* may have to do a foreach, not sure if this works */}
+      </div>
+    </div>
+  ); 
+}
+
 function Form(props) {
 
   const [ petName, setPetName ] = useState("")
@@ -93,23 +104,21 @@ function Form(props) {
   }
 
   return (
-    <div style={{position: 'fixed', top: 0, left: 0, display: props.visible, width: '100%', height: '100%'}} onClick={props.hide}>
-      <div className={styles.form} onClick={e => e.stopPropagation()}>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Nome do pet
-            <input type="text" value={petName} onChange={(e) => setPetName(e.target.value)}/>
-          </label>
-          <label>
-            Seu nome
-            <input type="text" value={authorName} onChange={(e) => setAuthorName(e.target.value)}/>
-          </label>
-          <input type="submit" value="Enviar"/>
-        </form>
-        <button onClick={props.hide}>
-          Fechar
-        </button>
-      </div>
+    <div className={styles.form}>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Nome do pet
+          <input type="text" value={petName} onChange={(e) => setPetName(e.target.value)}/>
+        </label>
+        <label>
+          Seu nome
+          <input type="text" value={authorName} onChange={(e) => setAuthorName(e.target.value)}/>
+        </label>
+        <input type="submit" value="Enviar"/>
+      </form>
+      <button onClick={props.hide}>
+        Fechar
+      </button>
     </div>
   );
 }
@@ -130,7 +139,9 @@ function Menu(props) {
   return (
     <div style={{display: props.visible}}>
       <div className={styles.floatingActionMenu}>
-        <Form visible={formVisible} hide={hideFoundPetForm} />
+        <Modal visible={formVisible} hide={hideFoundPetForm}>
+          <Form visible={formVisible} hide={hideFoundPetForm} />
+        </Modal>
         <button className={styles.floatingActionMenuOption} onClick={openFoundPetForm}>
           Perdi meu pet
         </button>
