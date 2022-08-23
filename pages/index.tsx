@@ -7,6 +7,7 @@ import { google } from '@google/maps';
 import { useDeepCompareMemoize } from 'use-deep-compare-effect';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import React from 'react';
 
 // this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
 // i believe it would be better if this list and the map were united into a single component, and when the user clicks on an occurrence it highlights it on the map
@@ -83,8 +84,7 @@ function Modal(props) {
   return (
     <div style={{position: 'fixed', top: 0, left: 0, display: props.visible, width: '100%', height: '100%'}} onClick={props.hide}>
       <div onClick={e => e.stopPropagation()}>
-        {props.children} 
-        {/* may have to do a foreach, not sure if this works */}
+        {React.Children.map(props.children, (child) => React.cloneElement(child, {...props, ...child.props}))}
       </div>
     </div>
   ); 
