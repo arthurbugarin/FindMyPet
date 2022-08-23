@@ -93,14 +93,24 @@ function Modal(props) {
 function Form(props) {
 
   const [ petName, setPetName ] = useState("")
-  const [ authorName, setAuthorName ] = useState(null);
+  const [ author, setAuthorName ] = useState(null);
   const [ lat, setLat ] = useState(null);
   const [ lon, setLon ] = useState(null);
-  const [ description, setDescription ] = useState(null);
+  const [ petDescription, setDescription ] = useState(null);
 
   function handleSubmit(event) {
     event.preventDefault();
-    alert('sent: ' + petName);
+    fetch('/api/writeOccurrence', {
+      method: 'POST',
+      body: JSON.stringify({
+        petName,
+        author,
+        lat,
+        lon,
+        petDescription
+      })
+    })
+    // TODO: show visual feedback to user that occurrence has been submitted successfully
   }
 
   return (
@@ -112,7 +122,7 @@ function Form(props) {
         </label>
         <label>
           Seu nome
-          <input type="text" value={authorName} onChange={(e) => setAuthorName(e.target.value)}/>
+          <input type="text" value={author} onChange={(e) => setAuthorName(e.target.value)}/>
         </label>
         <label>
           Latitude
@@ -124,7 +134,7 @@ function Form(props) {
         </label>
         <label>
           Descrição
-          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)}/>
+          <input type="text" value={petDescription} onChange={(e) => setDescription(e.target.value)}/>
         </label>
         <input type="submit" value="Enviar"/>
       </form>
