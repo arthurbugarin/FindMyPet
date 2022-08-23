@@ -8,16 +8,16 @@ datasource db {
 }
 
 model Occurrence {
-  id             Int       @id @default(autoincrement()) @map("id")
+  id             Int       @id @default(autoincrement())
   createTime     DateTime? @default(now()) @map("create_time") @db.DateTime(0)
   updateTime     DateTime? @default(now()) @map("update_time") @db.DateTime(0)
   petName        String?   @map("pet_name") @db.VarChar(50)
-  author         String?   @map("author") @db.VarChar(50)
-  lat            Float?    @map("lat") @db.Float
-  lon            Float?    @map("lon") @db.Float
+  author         String?   @db.VarChar(50)
+  lat            Float?    @db.Float
+  lon            Float?    @db.Float
   petDescription String?   @map("pet_description") @db.Text
   isAuthorsPet   Boolean?  @map("is_authors_pet")
-  solved         Boolean?  @map("solved")
+  solved         Int?      @default(0) @db.TinyInt
 
   @@map("occurrences")
 }
