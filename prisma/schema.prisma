@@ -16,8 +16,8 @@ model Occurrence {
   lat            Float?    @db.Float
   lon            Float?    @db.Float
   petDescription String?   @map("pet_description") @db.Text
-  isAuthorsPet   Boolean?  @map("is_authors_pet")
-  solved         Int?      @default(0) @db.TinyInt
+  isAuthorsPet   Boolean   @map("is_authors_pet") @db.TinyInt
+  solved         Boolean   @default(false) @db.TinyInt
 
   @@map("occurrences")
 }
