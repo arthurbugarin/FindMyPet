@@ -124,7 +124,7 @@ function Form(props) {
         </label>
         <label>
           Descrição
-          <input type="text" value={authorName} onChange={(e) => setDescription(e.target.value)}/>
+          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)}/>
         </label>
         <input type="submit" value="Enviar"/>
       </form>
