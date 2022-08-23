@@ -114,6 +114,18 @@ function Form(props) {
           Seu nome
           <input type="text" value={authorName} onChange={(e) => setAuthorName(e.target.value)}/>
         </label>
+        <label>
+          Latitude
+          <input type="number" value={lat} onChange={(e) => setLat(e.target.value)}/>
+        </label>
+        <label>
+          Longitude
+          <input type="number" value={lon} onChange={(e) => setLon(e.target.value)}/>
+        </label>
+        <label>
+          Descrição
+          <input type="text" value={authorName} onChange={(e) => setDescription(e.target.value)}/>
+        </label>
         <input type="submit" value="Enviar"/>
       </form>
       <button onClick={props.hide}>
