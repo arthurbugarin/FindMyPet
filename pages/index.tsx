@@ -136,25 +136,11 @@ function Form(props) {
 }
 
 function Menu(props) {
-  const [formVisible, setFormVisible] = useState("none");
-
-  function openFoundPetForm() {
-    setFormVisible("block");
-    props.setMapStyle({ zIndex: -1 });
-  }
-
-  function hideFoundPetForm() {
-    setFormVisible("none");
-    props.setMapStyle({});
-  }
-
+  
   return (
     <div style={{display: props.visible}}>
       <div className={styles.floatingActionMenu}>
-        <Modal visible={formVisible} hide={hideFoundPetForm}>
-          <Form/>
-        </Modal>
-        <button className={styles.floatingActionMenuOption} onClick={openFoundPetForm}>
+        <button className={styles.floatingActionMenuOption} onClick={props.openFoundPetForm}>
           Perdi meu pet
         </button>
         <button className={styles.floatingActionMenuOption}>
@@ -165,15 +151,31 @@ function Menu(props) {
   )
 }
 
-export default function Home() {
+function FloatingActionContainer(props) {
   const [menuVisible, setMenuVisible] = useState("none");
-  const [mapStyle, setMapStyle] = useState({});
 
-  function toggleMenu() {
-    if (menuVisible === "none")
-      setMenuVisible("flex");
-    else
-      setMenuVisible("none");
+  return (
+    <div className={styles.floatingActionContainer} onMouseLeave={() => setMenuVisible("none")}>
+      <Menu visible={menuVisible} setMapStyle={props.setMapStyle} openFoundPetForm={props.openFoundPetForm}/>
+      <button className={styles.floatingActionButton} onMouseEnter={() => setMenuVisible("flex")}>
+        Reportar pet
+      </button>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [mapStyle, setMapStyle] = useState({});
+  const [modalVisible, setModalVisible] = useState("none");
+
+  function openModal(){
+    setModalVisible("block");
+    setMapStyle({ zIndex: -1 });
+  }
+
+  function hideModal(){
+    setModalVisible("none");
+    setMapStyle({});
   }
 
   return (<>
@@ -185,12 +187,10 @@ export default function Home() {
     </Head>
     <Header/>
 
-    <div className={styles.floatingActionContainer} onMouseLeave={toggleMenu}>
-      <Menu visible={menuVisible} setMapStyle={setMapStyle}/>
-      <button className={styles.floatingActionButton} onMouseEnter={toggleMenu}>
-        Reportar pet
-      </button>
-    </div>
+    <FloatingActionContainer setMapStyle={setMapStyle} openFoundPetForm={openModal}/>
+    <Modal visible={modalVisible} hide={hideModal}>
+      <Form/>
+    </Modal>
 
     <div className={styles.container}>
       <OccurrenceList mapStyle={mapStyle} />
