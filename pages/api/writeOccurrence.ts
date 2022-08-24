@@ -8,7 +8,8 @@ export default async function handler(req, res) {
       author: parameters.author as string,
       lat: Number(parameters.lat),
       lon: Number(parameters.lon),
-      petDescription: parameters.petDescription as string
+      petDescription: parameters.petDescription as string,
+      isAuthorsPet: parameters.isAuthorsPet as boolean
   }
 
   try {

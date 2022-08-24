@@ -19,7 +19,13 @@ function OccurrenceList(props) {
     setLoading(true);
 
     try {
-      const newOccurrences = (await (await fetch('/api/fetchRecentOccurrences')).json());
+      const occurrenceFetchResponse = await fetch('/api/fetchRecentOccurrences');
+      if (occurrenceFetchResponse.status !== 200){
+        const errorMessage = await occurrenceFetchResponse.text();
+        throw Error(errorMessage);
+      }
+      
+      const newOccurrences = await occurrenceFetchResponse.json();
       if (occurrences !== newOccurrences) {
         setOccurrences(newOccurrences);
       }
@@ -107,7 +113,8 @@ function Form(props) {
         author,
         lat,
         lon,
-        petDescription
+        petDescription,
+        isAuthorsPet: false
       })
     })
     // TODO: show visual feedback to user that occurrence has been submitted successfully
