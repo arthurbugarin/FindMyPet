@@ -48,7 +48,7 @@ function OccurrenceList(props) {
   return (<>
     <div className="occurrence-map" style={props.mapStyle}> {/*this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible*/}
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
-        <Map zoom={1} center={{lat: 0, lng: 0}}/>
+        <Map zoom={1} center={{lat: 0, lng: 0}} style={{width: '50vw', height: '70vh'}} />
       </Wrapper>
     </div>
     <div className={styles.occurrencesListContainer}>
@@ -67,7 +67,22 @@ function OccurrenceList(props) {
   </>)
 }
 
-function Map(props) {
+interface MapProps extends google.maps.MapOptions {
+  style: { [key: string]: string };
+  onClick?: (e: google.maps.MapMouseEvent) => void;
+  onIdle?: (map: google.maps.Map) => void;
+  children?: React.ReactNode;
+  center: { [key: string]: number };
+  zoom: number;
+}
+
+const Map: React.FC<MapProps> = ({
+  onClick,
+  onIdle,
+  children,
+  style,
+  ...options
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
 
@@ -79,11 +94,21 @@ function Map(props) {
 
   useEffect(() => {
     if (map) {
-      map.setOptions(props);
+      map.setOptions(options);
     }
-  }, [map, props].map(useDeepCompareMemoize));
+  }, [map, options].map(useDeepCompareMemoize));
 
-  return <div ref={ref} style={{width: '50vw', height: '70vh'}}/>
+  return (
+    <>
+      <div ref={ref} style={style}/>
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          const new_props = { map, ...child.props };
+          return React.cloneElement(child, new_props);
+        }
+      })}
+    </>
+  )
 };
 
 function Modal(props) {
