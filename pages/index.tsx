@@ -73,7 +73,11 @@ function OccurrenceList(props) {
     <div className="occurrence-map" style={props.mapStyle}> {/*this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible*/}
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
         <Map zoom={1} center={{lat: 0, lng: 0}} style={{width: '50vw', height: '70vh'}}>
-          <Marker position={{lat: 0, lng: 0}} />
+          {
+            occurrences.map((occurrence) => {
+              return (<Marker key={occurrence.id} position={{lat: occurrence.lat, lng: occurrence.lon}}/>);
+            })
+          }
         </Map>
       </Wrapper>
     </div>
