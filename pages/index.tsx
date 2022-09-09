@@ -33,10 +33,23 @@ const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
   return null;
 };
 
+type Occurrence = {
+  id: number;
+  createTime: string;
+  updateTime: string;
+  petName?: string;
+  author?: string;
+  lat?: number;
+  lon?: number;
+  petDescription?: string;
+  isAuthorsPet: boolean;
+  solved: boolean;
+}
+
 // this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
 // i believe it would be better if this list and the map were united into a single component, and when the user clicks on an occurrence it highlights it on the map
 function OccurrenceList(props) {
-  const [ occurrences, setOccurrences ] = useState([]);
+  const [ occurrences, setOccurrences ] = useState<Occurrence[]>([]);
   const [ loading, setLoading ] = useState(false);
   
   async function refreshOccurrenceList() {
