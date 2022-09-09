@@ -9,6 +9,30 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import React from 'react';
 
+const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
+  const [marker, setMarker] = React.useState<google.maps.Marker>();
+  
+  React.useEffect(() => {
+    if (!marker) {
+      setMarker(new window.google.maps.Marker());
+    }
+
+    return () => {
+      if (marker) {
+        marker.setMap(null);
+      }
+    };
+  }, [marker]);
+
+  React.useEffect(() => {
+    if (marker) {
+      marker.setOptions(options);
+    }
+  }, [marker, options]);
+
+  return null;
+};
+
 // this is a list of the latest ~5 occurrences reported to the app, prioritizing occurrences closest to the user if possible
 // i believe it would be better if this list and the map were united into a single component, and when the user clicks on an occurrence it highlights it on the map
 function OccurrenceList(props) {
@@ -48,7 +72,9 @@ function OccurrenceList(props) {
   return (<>
     <div className="occurrence-map" style={props.mapStyle}> {/*this is a map that shows recent occurrences, prioritizing occurrences closest to the user if possible*/}
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY} render={render}>
-        <Map zoom={1} center={{lat: 0, lng: 0}} style={{width: '50vw', height: '70vh'}} />
+        <Map zoom={1} center={{lat: 0, lng: 0}} style={{width: '50vw', height: '70vh'}}>
+          <Marker position={{lat: 0, lng: 0}} />
+        </Map>
       </Wrapper>
     </div>
     <div className={styles.occurrencesListContainer}>
